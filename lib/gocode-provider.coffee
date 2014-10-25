@@ -7,9 +7,10 @@ class GocodeProvider extends Provider
     cursor = @editor.getCursorBufferPosition()
     pos = @editor.getBuffer().characterIndexForPosition(cursor)
     offset = "c" + pos.toString()
+    text = @editor.getText()
 
     result = childProcess.spawnSync "gocode", ["-f=json", "autocomplete", offset],
-      input: @editor.getText()
+      input: text
 
     if result.error or result.status
       console.log "failed to run gocode:", result
@@ -27,7 +28,7 @@ class GocodeProvider extends Provider
       prefix = c.name.substring 0, numPrefix
 
       word = c.name
-      word += "(" if c.class is "func"
+      word += "(" if c.class is "func" and text[pos] != "("
 
       suggestions.push new Suggestion(this, word: word, prefix: prefix, label: c.type, data: c.class)
 
