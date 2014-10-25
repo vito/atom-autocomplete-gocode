@@ -5,7 +5,8 @@ module.exports =
 class GocodeProvider extends Provider
   buildSuggestions: (cb) ->
     cursor = @editor.getCursorBufferPosition()
-    offset = @editor.getBuffer().characterIndexForPosition(cursor) + 1
+    pos = @editor.getBuffer().characterIndexForPosition(cursor)
+    offset = "c" + pos.toString()
 
     result = childProcess.spawnSync "gocode", ["-f=json", "autocomplete", offset],
       input: @editor.getText()
