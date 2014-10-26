@@ -4,9 +4,13 @@ childProcess = require "child_process"
 module.exports =
 class GocodeProvider extends Provider
   buildSuggestions: (cb) ->
-    cursor = @editor.getCursorBufferPosition()
-    pos = @editor.getBuffer().characterIndexForPosition(cursor)
-    offset = "c" + pos.toString()
+    position = @editor.getCursorBufferPosition()
+
+    scopes = @editor.scopeDescriptorForBufferPosition(position).getScopesArray()
+    return if scopes.indexOf("string.quoted.double.go") != -1
+
+    index = @editor.getBuffer().characterIndexForPosition(position)
+    offset = "c" + index.toString()
     text = @editor.getText()
 
     result = childProcess.spawnSync "gocode", ["-f=json", "autocomplete", offset],
@@ -28,8 +32,10 @@ class GocodeProvider extends Provider
       prefix = c.name.substring 0, numPrefix
 
       word = c.name
-      word += "(" if c.class is "func" and text[pos] != "("
+      word += "(" if c.class is "func" and text[index] != "("
 
-      suggestions.push new Suggestion(this, word: word, prefix: prefix, label: c.type, data: c.class)
+      label = c.type or c.class
+
+      suggestions.push new Suggestion(this, word: word, prefix: prefix, label: label)
 
     return suggestions
