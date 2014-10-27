@@ -8,6 +8,6 @@
     "atom": "*"
   },
   "dependencies": {
-    "autocomplete-plus": "git+https://github.com/saschagehlich/autocomplete-plus.git"
+    "autocomplete-plus": "git+https://github.com/vito/autocomplete-plus.git#fuzzy-finder-optional"
   }
 }
