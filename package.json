@@ -1,6 +1,6 @@
 {
   "name": "autocomplete-gocode",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "./lib/autocomplete",
   "description": "A Gocode plugin for Autocomplete Plus",
   "repository": "https://github.com/vito/atom-autocomplete-gocode",
