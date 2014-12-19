@@ -8,6 +8,7 @@ class GocodeProvider extends Provider
 
     scopes = @editor.scopeDescriptorForBufferPosition(position).getScopesArray()
     return if scopes.indexOf("string.quoted.double.go") != -1
+    return if scopes.indexOf("comment.line.double-slash.go") != -1
 
     index = @editor.getBuffer().characterIndexForPosition(position)
     offset = "c" + index.toString()
